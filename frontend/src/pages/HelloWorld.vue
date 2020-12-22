@@ -1,15 +1,57 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <div>Moisture value: <span>{{value}}</span></div>
-    
+  <div class="hello"> 
+    <v-row class="row">   
+<VueSvgGauge
+  :start-angle="-110"
+  :end-angle="110"
+  :value="random"
+  :separator-step="20"
+  :scale-interval="10"
+  :inner-radius="80"
+>
+  <span class="inner-text">
+    <span>Temperatura</span>
+  </span>
+</VueSvgGauge>
+<VueSvgGauge
+  :start-angle="-110"
+  :end-angle="110"
+  :value="random"
+  :separator-step="20"
+  :scale-interval="10"
+  :inner-radius="80"
+>
+  <span class="inner-text">
+    <span>Temperatura</span>
+  </span>
+</VueSvgGauge>
+<VueSvgGauge
+  :start-angle="-110"
+  :end-angle="110"
+  :value="random"
+  :separator-step="20"
+  :scale-interval="10"
+  :inner-radius="80"
+>
+  <span class="inner-text">
+    <span>Temperatura</span>
+  </span>
+</VueSvgGauge>
+</v-row>
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
+import { VueSvgGauge } from 'vue-svg-gauge'
+ 
+
+  
 
 export default {
+  components: {
+    VueSvgGauge,
+  },
   name: 'HelloWorld',
   props: {
     msg: String
@@ -48,4 +90,21 @@ li {
 a {
   color: #42b983;
 }
+.gauge{
+  width: 400px;
+}
+
+.inner-text {
+  position: absolute;
+  bottom: 25%;
+  left: 0%;
+  width: 100%;
+ 
+  
+}
+.inner-text span {
+    max-width: 100px;
+    color: red;
+    
+  }
 </style>

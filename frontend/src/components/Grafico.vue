@@ -60,7 +60,7 @@
 
 <style>
   .small {
-    max-width: 800px;
+    max-width: 400px;
     margin:  150px auto;
   }
 </style>

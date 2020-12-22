@@ -1,26 +1,21 @@
 <template>
   <v-bottom-navigation
     :value="value"
-    color="teal"
-    grow
+    color="#442bcf"
+    grow 
+    class="navbar-container"
   >
-    <v-btn>
-      <span>Recents</span>
+    <v-btn href="/#/">
+      <span>Monitoring</span>
 
-      <v-icon>mdi-history</v-icon>
-    </v-btn>
+      <v-icon>mdi-gauge</v-icon>
+    </v-btn >
 
-    <v-btn>
-      <span>Favorites</span>
+    <v-btn href="/#/about">
+      <span>Historic</span>
 
-      <v-icon>mdi-heart</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Nearby</span>
-
-      <v-icon>mdi-map-marker</v-icon>
-    </v-btn>
+      <v-icon>mdi-chart-line-variant</v-icon>
+    </v-btn>    
   </v-bottom-navigation>
 </template>
 <script>
@@ -28,3 +23,8 @@
     data: () => ({ value: 1 }),
   }
 </script>
+<style  scoped>
+.navbar-container{
+    align-items: center;
+}
+</style>

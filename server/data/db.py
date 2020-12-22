@@ -10,14 +10,11 @@ class Database():
                     )
         self.cursor = self.mydb.cursor(dictionary=True)
     def select_moisture(self):
-        self.cursor.execute("SELECT * FROM moisture")
+        self.cursor.execute("SELECT * FROM moistures")
         myresult = self.cursor.fetchall()
         return myresult
 
     def select_humidity(self):
-        self.cursor.execute("SELECT * FROM humidity")
+        self.cursor.execute("SELECT * FROM humidities")
         myresult = self.cursor.fetchall()
         return myresult
-
-# db=DB()
-# db.select()

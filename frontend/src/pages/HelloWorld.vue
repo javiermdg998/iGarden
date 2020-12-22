@@ -2,11 +2,13 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <div>Moisture value: <span>{{value}}</span></div>
+    
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
+
 export default {
   name: 'HelloWorld',
   props: {

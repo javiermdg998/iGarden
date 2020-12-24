@@ -2,21 +2,19 @@
   <div class="historic">
     <h1 class="historic-title">Monitorizacion del invernadero</h1>
     <v-row class="row">
-      <Grafico/>
-        <Grafico/>
-        <Grafico/>
-                <Grafico/>
+        <Chart color="#e8e810"  title="Luminosidad" dataSource="http://localhost:5000/luminity"/>
+        <Chart color="#e86e10" title="Temperatura" dataSource="http://localhost:5000/temperature"/>
+        <Chart color="#3259a8" title="Humedad" dataSource="http://localhost:5000/humidity"/>
+         
     </v-row>
-    <v-row class="row">
-            
-                 </v-row>
+  
   </div>
 </template>
 <script>
-import Grafico from "@/components/Grafico.vue"
+import Chart from "@/components/Chart.vue"
 
 export default {
-  components:{Grafico}
+  components:{Chart}
 }
 </script>
 <style  scoped>

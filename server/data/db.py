@@ -9,8 +9,9 @@ class Database():
                         database="iGarden"
                     )
         self.cursor = self.mydb.cursor(dictionary=True)
-    def select_moisture(self):
-        self.cursor.execute("SELECT * FROM moistures")
+
+    def select_luminities(self):
+        self.cursor.execute("SELECT * FROM luminities")
         myresult = self.cursor.fetchall()
         return myresult
 
@@ -18,3 +19,10 @@ class Database():
         self.cursor.execute("SELECT * FROM humidities")
         myresult = self.cursor.fetchall()
         return myresult
+        
+    def select_temperatures(self):
+        self.cursor.execute("SELECT * FROM temperatures")
+        myresult = self.cursor.fetchall()
+        return myresult
+        
+

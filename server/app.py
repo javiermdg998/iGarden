@@ -4,7 +4,7 @@ from flask import Flask, render_template,jsonify
 from flask_mqtt import Mqtt
 from flask_socketio import SocketIO
 from data.db import Database
-
+from flask_cors import CORS
 
 eventlet.monkey_patch()
 
@@ -22,6 +22,8 @@ app.config['MQTT_TLS_ENABLED'] = False
 mqtt = Mqtt(app)
 db=Database()
 socketio = SocketIO(app)
+CORS(app)
+
 # Parameters for SSL enabled
 # app.config['MQTT_BROKER_PORT'] = 8883
 # app.config['MQTT_TLS_ENABLED'] = True
@@ -33,6 +35,22 @@ socketio = SocketIO(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/temperature')
+def get_temperature():
+    data=db.select_temperatures()
+    return jsonify(data)
+
+@app.route('/humidity')
+def get_humidity():
+    data=db.select_humidity()
+    return jsonify(data)
+
+@app.route('/luminity')
+def get_luminities():
+    data=db.select_luminities()
+    return jsonify(data)
+
 
 @socketio.on('publish')
 def handle_publish(json_str):
@@ -66,14 +84,6 @@ def handle_mqtt_message(client, userdata, message):
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     mqtt.subscribe('iGarden/values')
-
-
-@app.route('/moisture')
-def get_moisture():
-    obj=db.select_moisture()  
-    return jsonify(obj)
-
-
 
 if __name__ == '__main__':
     app.debug=True

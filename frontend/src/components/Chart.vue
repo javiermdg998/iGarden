@@ -1,31 +1,66 @@
 <template>
   <div class="small">
-    <chart :chart-data="datacollection"></chart>
+    <h2>{{title}}</h2>
+    <line-chart :chart-data="datacollection"></line-chart>
     <button @click="fillData()">Randomize</button>
      <button @click="add()">Add data</button>
   </div>
 </template>
 
 <script>
-  import Chart from './Chart.js'
+  import LineChart from './LineChart.js'
 
   export default {
-    name:'Grafico',
+    name:'Chart',
     components: {
-      'chart':Chart
+      'line-chart':LineChart
     },
+    props: {
+    color: String,
+    dataSource: String,
+    title:String    
+  },
     data () {
       return {
-        datacollection: null,
+        datacollection: {},
         points:[this.getRandomInt(), this.getRandomInt()],
         labels:[this.getRandomInt(), this.getRandomInt()]
       }
     },
-    mounted () {
-      this.fillData()
+   
+    mounted(){
+      fetch(this.dataSource).then((res)=>{
+        if (res.ok){
+          return res.text()
+        }else{
+          alert("error")
+        }
+      }).then((data)=>{
+        data=JSON.parse(data)
+        let labels_=[]
+        let datas_=[]
+        data.forEach(element => {
+            let date=new Date(element.time)            
+            labels_.push(`${date.getDay()}-${date.getMonth()}`)
+            datas_.push(element.value)
+        });
+
+
+        this.datacollection = {
+          labels: labels_,
+          datasets: [
+            {
+              label: 'Data One',
+              backgroundColor: this.color,
+              data: datas_
+            }, 
+          ]
+        }
+        
+      })
     },
     methods: {
-      fillData () {
+      load_data () {
         this.datacollection = {
           labels: this.labels,
           datasets: [
@@ -37,6 +72,7 @@
           ]
         }
       },
+
       add(){
           this.points.push(this.getRandomInt())
           this.labels.push(this.getRandomInt())

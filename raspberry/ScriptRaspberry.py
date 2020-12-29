@@ -6,23 +6,14 @@ import paho.mqtt.publish as publish
 import json
 import sys
 from datetime import datetime
+import get_humi_temp
+import get_lumi
 
-
-GPIO.setmode(GPIO.BCM)
-gpio_pin_sensor = 18   
-sensor = dht_config.DHT(gpio_pin_sensor) 
-humi, temp = sensor.read()
+s_humi_temp = get_humi_temp.Sensor_temp_hum()
+humi, temp = s_humi_temp.leer()
 #Las variables humi y temp tienen los datos de humedad y temperatura respectivamente.
-
-bus = smbus.SMBus(1)
-TSL2561_DEFAULT_ADDRESS = 0x29
-bus.write_byte_data(TSL2561_DEFAULT_ADDRESS, 0x00 | 0x80, 0x03)
-bus.write_byte_data(TSL2561_DEFAULT_ADDRESS, 0x01 | 0x80, 0x01)
-data = bus.read_i2c_block_data(TSL2561_DEFAULT_ADDRESS, 0x0C | 0x80, 2)
-data1 = bus.read_i2c_block_data(TSL2561_DEFAULT_ADDRESS, 0x0E | 0x80, 2)
-ch0 = data[1] * 256 + data[0] 
-ch1 = data1[1] * 256 + data1[0] 
-EV = ch0-ch1
+s_lum = get_lumi.Sensor_lum()
+EV = s_lum.read()
 #EV tiene los luxes del espectro visible 
 
 dateTimeObj = datetime.now()

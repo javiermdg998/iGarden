@@ -2,8 +2,7 @@
   <div class="small">
     <h2>{{title}}</h2>
     <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
-     <button @click="add()">Add data</button>
+
   </div>
 </template>
 
@@ -18,60 +17,44 @@
     props: {
     color: String,
     dataSource: String,
-    title:String    
+    title:String,
+    dataPoints:Object,
+    dataLabels:Object    
   },
     data () {
       return {
         datacollection: {},
-        points:[this.getRandomInt(), this.getRandomInt()],
-        labels:[this.getRandomInt(), this.getRandomInt()]
+        points:[],
+        labels:[]
       }
     },
    
-    mounted(){
-      fetch(this.dataSource).then((res)=>{
-        if (res.ok){
-          return res.text()
-        }else{
-          alert("error")
-        }
-      }).then((data)=>{
-        data=JSON.parse(data)
-        let labels_=[]
-        let datas_=[]
-        data.forEach(element => {
-            let date=new Date(element.time)            
-            labels_.push(`${date.getDay()}-${date.getMonth()}`)
-            datas_.push(element.value)
-        });
-
-
+    mounted(){    
         this.datacollection = {
-          labels: labels_,
+          labels: this.dataLabels,
           datasets: [
             {
               label: 'Data One',
               backgroundColor: this.color,
-              data: datas_
+              data: this.dataPoints
             }, 
           ]
         }
         
-      })
-    },
-    methods: {
-      load_data () {
-        this.datacollection = {
-          labels: this.labels,
-          datasets: [
-            {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: this.points
-            }, 
-          ]
-        }
       },
+      methods: {
+        load_data () {
+          this.datacollection = {
+            labels: this.labels,
+            datasets: [
+              {
+                label: 'Data One',
+                backgroundColor: '#f87979',
+                data: this.points
+              }, 
+            ]
+          }
+        },
 
       add(){
           this.points.push(this.getRandomInt())
@@ -87,9 +70,7 @@
           ]
         }
       },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-      }
+      
     }
   }
 </script>

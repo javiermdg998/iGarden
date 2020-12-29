@@ -18,4 +18,21 @@ export default class DataApi {
             return { humid, humidity, temperature, luminity }
         })
     }
+
+    static async fetchUrl() {
+        return await this._fetchUrl()
+    }
+
+    static _fetchUrl() {
+        return fetch("http://localhost:5000/state").then((res) => {
+            if (res.ok) {
+                return res.text()
+            }
+            alert("Error")
+        }).then(data => {
+            let parsed_data = JSON.parse(data)
+
+            return parsed_data
+        })
+    }
 }

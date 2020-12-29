@@ -2,35 +2,24 @@
   <div class="monitoring"> 
    
     <v-row class="row-card">   
-      <DataCard icon="mdi-thermometer" topic="Temperatura" value="18" unit="ºC" color="red"/>
-       <DataCard icon="mdi-watering-can" topic="Hidratado" value="SI" unit="" color="green"/>
+      <DataCard icon="mdi-thermometer" topic="Temperatura" :value="this.temperature+''" unit="ºC" color="red"/>
+       <DataCard icon="mdi-watering-can" topic="Hidratado" :value="this.humid?'SI':'NO'" unit="" color="green"/>
     </v-row>
 
     <v-row class="row-card">   
-       <DataCard icon="mdi-water-percent" topic="Humedad " value="35" unit="%" color="blue"/>
-       <DataCard icon="mdi-lightbulb" topic="Temperatura" value="23" unit="lux" color="orange"/>
-    <!-- <VueSvgGauge
-      :start-angle="-110"
-      :end-angle="110"
-      :value="56"
-      :separator-step="20"
-      :scale-interval="10"
-      :inner-radius="80"
-    >
-      <span class="inner-text">
-        <span>Humedad</span>
-      </span>
-    </VueSvgGauge> -->
+       <DataCard icon="mdi-water-percent" topic="Humedad " :value="this.humidity+''" unit="%" color="blue"/>
+       <DataCard icon="mdi-lightbulb" topic="Temperatura" :value="this.luminity+''" unit="lux" color="orange"/>
+
 </v-row>
 
   </div>
 </template>
 
 <script>
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 // import { VueSvgGauge } from 'vue-svg-gauge'
 import DataCard from "@/components/DataCard.vue"
-
+import DataApi from "@/util/DataApi.js"
   
 
 export default {
@@ -40,22 +29,43 @@ export default {
   },
   name: 'HelloWorld',
   props: {
-    msg: String
+    msg: String,
+    data: String
   },
   data:()=>({
     connection:null,
     value:0,
+    humidity:0,
+    temperature:0,
+    humid:false,
+    luminity:0,
+    interval:null
   }),
   created(){
-    this.connection=io("ws://192.168.8.116:5000",{
-      transports:["websocket"]
-    })
-    this.connection.on("message",(data)=>{
-      console.log(data)
-    })
-  },
-  mounted(){
+  
+    // this.connection=io("ws://127.0.0.1:5000",{
+    //   transports:["websocket"]
+    // })
+    // this.connection.on("message",(data)=>{
+    //   console.log(data)
     
+    this.interval=setInterval(()=>{
+        DataApi.getState().then(data=>{
+          console.log(data)
+          this.humidity=data.humidity
+          this.temperature=data.temperature
+          this.luminity=data.luminity
+          this.humid=data.humid
+        })},1000)
+
+  
+ 
+  },
+  beforeDestroy(){
+
+  },
+  methods:{
+   
   }
 }
 </script>

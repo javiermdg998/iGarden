@@ -17,6 +17,8 @@ hostname = "test.mosquitto.org"
 #Leemos los valores del sensor.
 # CAMIAD ESTO POR LA LECTURA REAL DEL SENSOR QUE USÉIS
 valor = int(sys.argv[1])
+valor_1 = int(sys.argv[2])
+valor_2 = int(sys.argv[3])
 #----------------------------------------------
  
 # Mensaje que vamos a publicar en el topic definido anteriormente
@@ -28,22 +30,9 @@ valor = int(sys.argv[1])
 #   "value":valor
 # }
 mensaje ={
-  "type": "sensors_info",
-  "payload": {
-    "sensors_info": [
-      {
-        "id": "salonLuz",
-        "name": "Luces del salon",
-        "value": True #LECTURA DEL SENSOR
-      },
-
-      {
-        "id": "salonTemp",
-        "name": "Temperatura del salon",
-        "value": valor #LECTURA DEL SENSOR
-      }
-    ]
-  }
+ "humedad":valor,
+ "temperatura":valor_1,
+ "luminosidad":valor_2
 }
 #---------------------------------------------------
 # Convertimos el mensaje a JSON

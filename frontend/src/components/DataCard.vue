@@ -12,11 +12,11 @@
 <script>
 export default {
     props:{
-        value:String,
-        topic:String,
-        unit:String,
-        icon:String,
-        color:String
+        value: String,
+        topic: String,
+        unit: String,
+        icon: String,
+        color: String
     }
 }
 </script>

@@ -14,7 +14,13 @@
 import Chart from "@/components/Chart.vue"
 
 export default {
-  components:{Chart}
+  components:{Chart},
+  data:()=>({
+  
+  }),
+  created(){
+    
+  }
 }
 </script>
 <style  scoped>

@@ -19,12 +19,12 @@ export default class DataApi {
         })
     }
 
-    static async fetchUrl() {
-        return await this._fetchUrl()
+    static async fetchUrl(url) {
+        return await this._fetchUrl(url)
     }
 
-    static _fetchUrl() {
-        return fetch("http://localhost:5000/state").then((res) => {
+    static _fetchUrl(url) {
+        return fetch(url).then((res) => {
             if (res.ok) {
                 return res.text()
             }

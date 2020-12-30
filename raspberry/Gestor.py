@@ -1,35 +1,30 @@
 from enum import Enum
+import Invernadero
 
 b_marcha = False
 i_humedad = 0
 i_luminosidad = 0
 i_temperatura = 0
-
+b_regado = False
 class Estado(Enum):
-    INICIAL = 0
-    RECOGIENDO_DATOS = 1
+    INACTIVO = 0
+    INICIAL = 1
     FRIO = 2
     CALIENTE = 3
     SECO = 4
     HUMEDO = 5
+invernadero = Invernadero(i_temperatura, i_humedadm, i_luminosidad, b_regado, b_marcha)
 
-def get_marcha():
-    return True
-def get_humedad():
-    return 0
-def get_luminosidad():
-    return 0
-def get_temperatura():
-    return 0
-def gestionar(estado):
-    if estado == INICIAL:
+def execute(estado):
+    if estado == INACTIVO:
         b_marcha = get_marcha()
         if b_marcha == True:
-            estado = estado.RECOGIENDO_DATOS
-    elif estado == RECOGIENDO_DATOS:
-        i_humedad = get_humedad()
-        i_temperatura = get_temperatura()
-        i_luminosidad = get_luminosidad()
+            estado = estado.INICIAL
+    elif estado == INICIAL:
+        invernadero.humedad = activar_script_humedad
+        invernadero.temperatura = activar_script_temperatura
+        invernadero.luminosidad = activar_script_luminosidad
+        
     elif estado == FRIO:
 
     elif estado == CALIENTE:

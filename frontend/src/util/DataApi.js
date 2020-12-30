@@ -19,7 +19,7 @@ export default class DataApi {
         })
     }
 
-    static async fetchUrl(url) {
+    static async fetchJSONUrl(url) {
         return await this._fetchUrl(url)
     }
 

@@ -9,7 +9,7 @@
 
 <script>
   import LineChart from './LineChart.js'
-
+  import DataApi from "@/util/DataApi.js"
   export default {
     name:'Chart',
     components: {
@@ -29,14 +29,8 @@
     },
    
     mounted(){
-      fetch(this.dataSource).then((res)=>{
-        if (res.ok){
-          return res.text()
-        }else{
-          alert("error")
-        }
-      }).then((data)=>{
-        data=JSON.parse(data)
+      DataApi.fetchJSONUrl(this.dataSource).then((data)=>{
+       
      
         data.forEach(element => {
             let date=new Date(element.time)            
@@ -62,9 +56,12 @@
       
 
       add(x){
+          let date=new Date()
           this.points.push(x)
-          this.labels.push(new Date())
-            
+          
+          this.labels.push(`${date.getDay()}-${date.getMonth()}`)
+          this.points.splice(0,1)//borramos el valor mas antiguo para no desbordar el grafico
+          this.labels.splice(0,1)
           this.datacollection = {
           labels: this.labels,
           datasets: [

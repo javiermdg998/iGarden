@@ -31,13 +31,7 @@ export default {
       this.$refs.chart_hum.add(state.humidity)
     })},1000)
   },
-  methods:{
-    add:function(){
-      this.$refs.chart_lumi.add(4)
-      this.$refs.chart_temp.add(4)
-      this.$refs.chart_hum.add(4)
-    }
-  }
+
 }
 </script>
 <style  scoped>

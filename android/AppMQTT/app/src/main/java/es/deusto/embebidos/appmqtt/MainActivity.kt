@@ -7,6 +7,7 @@ import android.os.IBinder
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         dataFromPublisher.text = "EJEMPLO DE MQTT"
 
         mqttBroadcast = MqttBroadcast()
-
+        initMqttService(View(this))
     }
 
     // --------------------------------------------------------------------
@@ -79,7 +80,6 @@ class MainActivity : AppCompatActivity() {
     fun subsTopic() {
         mqttService?.subscribeToTopic(SensorsMqttService.TOPICS[0], 0, object : IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken?) {
-
                 Log.d("MQTT", "EXITO EN LA SUBSCRIPCION AL TOPIC ${SensorsMqttService.TOPICS[0]}")
             }
 
@@ -95,7 +95,8 @@ class MainActivity : AppCompatActivity() {
             when(type){
 
                 "sensors_info" -> {
-                    val array = payload.getJSONArray("sensors_info")
+                    payload.getJSONObject()
+                    val array = payload.getJSONArray("iGarden/values")
                     val tempSalon = array.getJSONObject(1).get("value")
                     runOnUiThread {
                         dataFromPublisher.text = "Temperatura salon = " + tempSalon.toString()

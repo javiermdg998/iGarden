@@ -11,7 +11,7 @@
       <v-icon>mdi-gauge</v-icon>
     </v-btn >
 
-    <v-btn href="/#/about">
+    <v-btn href="/#/historic">
       <span>Historic</span>
 
       <v-icon>mdi-chart-line-variant</v-icon>
@@ -21,7 +21,20 @@
 <script>
   export default {
     data: () => ({ value: 1 }),
+    created(){
+      let location =  window.location
+      let loc_array= location.toString().split("/")
+      switch(loc_array[loc_array.length - 1]){
+        case "":
+          this.value=0
+          break;
+        case "historic":
+          this.value=1
+          break;
+      }
+    }
   }
+
 </script>
 <style  scoped>
 .navbar-container{

@@ -1,7 +1,7 @@
 <template>
   <div class="historic">
     <h1 class="historic-title">Monitorizacion del invernadero</h1>
-    <button @click="add()">botona</button>
+    
     <v-row class="row">
         <Chart color="#e8e810"  title="Luminosidad" dataSource="http://localhost:5000/luminity" ref="chart_lumi"/>
         <Chart color="#e86e10" title="Temperatura" dataSource="http://localhost:5000/temperature" ref="chart_temp"/>
@@ -31,7 +31,9 @@ export default {
       this.$refs.chart_hum.add(state.humidity)
     })},1000)
   },
-
+  beforeDestroy(){
+      clearInterval(this.interval)
+  }
 }
 </script>
 <style  scoped>

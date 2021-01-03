@@ -55,7 +55,7 @@ export default {
  
   },
   beforeDestroy(){
-
+      clearInterval(this.interval)
   },
   methods:{
    updateState(){

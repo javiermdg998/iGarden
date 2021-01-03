@@ -26,3 +26,20 @@ class Database():
         return myresult
         
 
+    def save_state(self,humid,temp,light,time):
+        sql="INSERT INTO humidities (value,time) VALUES (%s,%s)"
+        values=(humid,time)
+        self.cursor.execute(sql,values)
+
+        sql="INSERT INTO luminities (value,time) VALUES (%s,%s)"
+        values=(light,time)
+        self.cursor.execute(sql,values)
+
+        sql="INSERT INTO temperatures (value,time) VALUES (%s,%s)"
+        values=(temp,time)
+        self.cursor.execute(sql,values)
+                    
+        self.mydb.commit()
+        print(self.cursor.rowcount, "was inserted.")
+
+    

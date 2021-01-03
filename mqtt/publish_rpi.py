@@ -7,6 +7,7 @@
 import paho.mqtt.publish as publish
 import json
 import sys
+from datetime import datetime
 #MQTT topic
 topic = "iGarden/values"
 
@@ -32,7 +33,8 @@ valor_2 = int(sys.argv[3])
 mensaje ={
  "humedad":valor,
  "temperatura":valor_1,
- "luminosidad":valor_2
+ "luminosidad":valor_2,
+ "fecha":str(datetime.now())
 }
 #---------------------------------------------------
 # Convertimos el mensaje a JSON

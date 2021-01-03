@@ -27,7 +27,7 @@ export default {
     // VueSvgGauge,
     DataCard
   },
-  name: 'HelloWorld',
+  name: 'Home',
   props: {
     msg: String,
     data: String
@@ -41,22 +41,15 @@ export default {
     luminity:0,
     interval:null
   }),
-  created(){
-  
+  created(){  
     // this.connection=io("ws://127.0.0.1:5000",{
     //   transports:["websocket"]
     // })
     // this.connection.on("message",(data)=>{
     //   console.log(data)
-    
-    this.interval=setInterval(()=>{
-        DataApi.getState().then(data=>{
-          console.log(data)
-          this.humidity=data.humidity
-          this.temperature=data.temperature
-          this.luminity=data.luminity
-          this.humid=data.humid
-        })},1000)
+    this.updateState()
+    this.interval=setInterval(()=>{ this.updateState()
+        },1000)
 
   
  
@@ -65,7 +58,15 @@ export default {
 
   },
   methods:{
-   
+   updateState(){
+        DataApi.getState().then(data=>{
+          console.log(data)
+          this.humidity=data.humidity
+          this.temperature=data.temperature
+          this.luminity=data.luminity
+          this.humid=data.humid
+        })
+   }
   }
 }
 </script>

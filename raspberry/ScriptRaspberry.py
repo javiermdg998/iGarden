@@ -23,15 +23,12 @@ dateTimeObj = datetime.now()
 dateTimeObj=str(dateTimeObj)
 topic = "iGarden/values" 
 hostname = "test.mosquitto.org"
-mensaje ={"Humedad":{"value":humi,
-                     "TimeStamp":dateTimeObj},
-          "Temperatura":{"value":temp,
-                     "TimeStamp":dateTimeObj},
-          "Luz":{"value":EV,
-                     "TimeStamp":dateTimeObj},
-          "Humedadtierra":{"value":mois,
-                     "TimeStamp":dateTimeObj} 
-}
 
+mensaje ={
+ "humedad":humi,
+ "temperatura":temp,
+ "luminosidad":EV,
+ "fecha":dateTimeObj
+}
 mensaje_json= json.dumps(mensaje)
 publish.single(topic, mensaje_json, hostname=hostname)

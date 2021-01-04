@@ -1,1 +1,0 @@
-sendmail correo@gmail.com < horas_regado.txt

@@ -3,6 +3,9 @@ import Invernadero as i
 import get_humi_temp as ght
 import get_lumi as gl
 import time
+import salidas
+from datetime import datetime
+import logger as l
 b_marcha = False
 i_humedad = 0
 i_luminosidad = 0
@@ -11,13 +14,18 @@ b_regado = False
 T_MAX = 25
 T_MIN = 18
 T_NORMAL = 22
-
+PIN_CALEFACTOR = 8
+PIN_REFRIGERADOR = 7
+PIN_REGADORA = 1 
 s_temp_hum = ght.Sensor_temp_hum()
 s_lumi = gl.Sensor_lum()
-
-H_MIN = 18
-H_MAX = 25
-H_NORMAL = 22
+calefactor = salidas.Led(PIN_CALEFACTOR)
+refrigerador = salidas.Led(PIN_REFRIGERADOR)
+regadora = salidas.Led(PIN_REGADORA)
+fichero = l.Fichero("/home/pi/Desktop/raspberry/servicio/horas_regado.txt", str(datetime.today()))
+H_MIN = 77
+H_MAX = 82
+H_NORMAL = 80
 class Estado(Enum):
     INACTIVO = 0
     INICIAL = 1
@@ -30,15 +38,6 @@ class Estado(Enum):
     CALIENTE_HUMEDO = 8
     CALIENTE_SECO = 9
 invernadero = i.Invernadero(i_temperatura, i_humedad, i_luminosidad, b_regado, b_marcha)
-
-def execute():
-    e= Estado.INACTIVO
-    while True:
-        leer(e)
-        e = gestionar(e)
-        escribir(e)
-        time.sleep(0.2)
-execute()
 
 def gestionar(estado):
     if estado == estado.INACTIVO:
@@ -150,31 +149,58 @@ def escribir(estado):
         if b_marcha == True:
             estado = estado.INICIAL
     elif estado == estado.INICIAL:
+        desactivar_calentar()
+        desactivar_enfriar()
+        desactivar_regado()
         print("")
     elif estado == estado.FRIO:
+        desactivar_enfriar()
+        desactivar_regado()
         calentar()
     elif estado == estado.CALIENTE:
+        desactivar_calentar()
+        desactivar_regado()
         enfriar()
     elif estado == estado.HUMEDO:
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
+        desactivar_calentar()
+        desactivar_enfriar()
+        desactivar_regado()
     elif estado == estado.SECO:
-        regar()
+        desactivar_calentar()
+        desactivar_enfriar()
+        activar_regado()
     elif estado == estado.FRIO_HUMEDO:
         calentar()
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.FRIO_SECO:
         calentar()
-        regar()
+        activar_regado()
     elif estado == estado.CALIENTE_HUMEDO:
         enfriar()
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.CALIENTE_SECO:
         enfriar()
-        regar()
-
+        activar_regado()
 def calentar():
-    print("ESTOY CALENTANDO")
+    calefactor.encender_led()
+def desactivar_calentar():
+    calefactor.apagar_led()
 def enfriar():
-    print("ESTOY ENFRIANDO")
-def regar():
-    print("ESTOY REGANDO")
+    refrigerador.encender_led()
+def desactivar_enfriar():
+    refrigerador.apagar_led()
+def activar_regado():
+    regadora.encender_led()
+    fichero.escribir("- INICIO DE REGADO :" + str(datetime.now()))
+def desactivar_regado():
+    regadora.apagar_led()
+    fichero.escribir("  FIN DE REGADO : " + str(datetime.now()) )
+    
+def execute():
+    e= Estado.INACTIVO
+    while True:
+        leer(e)
+        e = gestionar(e)
+        escribir(e)
+        print("HUMEDAD = " + str(invernadero.humedad) + " | TEMP = " + str(invernadero.temperatura) + " | ESTADO = " + str(e)) 
+        time.sleep(2)
+
+execute()

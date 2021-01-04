@@ -1,9 +1,10 @@
 [Unit]
-Description=Servicio que ejecute script horas_regado.sh
+Description=Servicio que ejecute script graficos_regado.py
 
 [Service]
 Type=simple
-ExecStart=/bin/bash /usr/bin/graficos.sh
+ExecStart=/usr/bin/python3 /usr/bin/graficos_regado.py
+WorkingDirectory=/usr/bin/
 
 [Install]
 WantedBy=multi-user.target

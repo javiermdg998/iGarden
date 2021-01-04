@@ -159,14 +159,26 @@ def escribir(estado):
         if b_marcha == True:
             estado = estado.INICIAL
     elif estado == estado.INICIAL:
+        desactivar_calentar()
+        desactivar_enfriar()
+        desactivar_regado()
         print("")
     elif estado == estado.FRIO:
+        desactivar_enfriar()
+        desactivar_regado()
         calentar()
     elif estado == estado.CALIENTE:
+        desactivar_calentar()
+        desactivar_regado()
         enfriar()
     elif estado == estado.HUMEDO:
+        desactivar_calentar()
+        desactivar_enfriar()
+        desactivar_regado()
         print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.SECO:
+        desactivar_calentar()
+        desactivar_enfriar()
         activar_regado()
     elif estado == estado.FRIO_HUMEDO:
         calentar()

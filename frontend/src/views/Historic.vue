@@ -29,7 +29,7 @@ export default {
        this.$refs.chart_lumi.add(state.luminity)
       this.$refs.chart_temp.add(state.temperature)
       this.$refs.chart_hum.add(state.humidity)
-    })},1000)
+    })},3000)
   },
   beforeDestroy(){
       clearInterval(this.interval)

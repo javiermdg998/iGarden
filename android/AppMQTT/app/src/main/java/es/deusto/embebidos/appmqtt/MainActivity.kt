@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private var mqttService: SensorsMqttService? = null
     private lateinit var mqttBroadcast: MqttBroadcast
     lateinit var dataFromPublisher :TextView
+    lateinit var temperatura_view :TextView
 
 
     /**
@@ -32,12 +33,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        temperatura_view=findViewById<TextView>(R.id.lbl_temperatura)
+        temperatura_view.text="Texto de prueba"
+        temperatura_view.textSize=30f
         dataFromPublisher         = findViewById<TextView>(R.id.textoXML)
         dataFromPublisher.text = "EJEMPLO DE MQTT"
 
         mqttBroadcast = MqttBroadcast()
-
+        initMqttService(View(this))
     }
 
     // --------------------------------------------------------------------
@@ -49,12 +52,6 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
         }
-    }
-
-    fun onClick(v:View){
-        println("test")
-        Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
-        initMqttService(View(this))
     }
     // ---------------------------------------------------------------------
 
@@ -76,8 +73,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             this.startService(startServiceIntent)
         }
-        Toast.makeText(this,"inicializando servicio",Toast.LENGTH_LONG).show()
-        Log.d("TAG","inicializando")
+
     }
 
 
@@ -85,9 +81,9 @@ class MainActivity : AppCompatActivity() {
      * Función para SUBSCRIBIRSE a un determinado  topic
      */
     fun subsTopic() {
-        Toast.makeText(this, "Conectando a invernadero", Toast.LENGTH_LONG).show()
         mqttService?.subscribeToTopic(SensorsMqttService.TOPICS[0], 0, object : IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken?) {
+
                 Log.d("MQTT", "EXITO EN LA SUBSCRIPCION AL TOPIC ${SensorsMqttService.TOPICS[0]}")
             }
 
@@ -95,19 +91,21 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MQTT", "ERROR EN LA SUBSCRIPCION ")
             }
         }, IMqttMessageListener { topic, message ->
-            Toast.makeText(this,"mensaje recibido", Toast.LENGTH_LONG).show()
+
             val msgObj = JSONObject(message.toString())
+            print(msgObj)
             val type = msgObj.getString(SensorsMqttService.MQTT_MESSAGE_TYPE)
             val payload = msgObj.getJSONObject(SensorsMqttService.MQTT_MESSAGE_PAYLOAD)
 
             when(type){
 
                 "sensors_info" -> {
-                   // payload.getJSONObject()
-                    val array = payload.getJSONArray("iGarden/values")
+                    val array = payload.getJSONArray("sensors_info")
                     val tempSalon = array.getJSONObject(1).get("value")
+                    val temp2 = array.getJSONObject(0).get("value")
                     runOnUiThread {
                         dataFromPublisher.text = "Temperatura salon = " + tempSalon.toString()
+                        temperatura_view.text=temp2.toString()
                     }
                 }
 
@@ -163,21 +161,17 @@ class MainActivity : AppCompatActivity() {
     inner class MqttBroadcast: BroadcastReceiver() {
     //Esta función se llaman automáticamente cuando hay CAMBIOS en la conexión MQTT con el broker
     override fun onReceive(context: Context?, intent: Intent?) {
-
         //Esta condició se ejecuta automáticamente cuando la conexión con el broker tiene éxito
             if(SensorsMqttService.CONNECTION_SUCCESS == intent!!.action){
-                println("conectado")
-                runOnUiThread { dataFromPublisher.text = "Conectando" }
                  subsTopic()
             }
 
             if(SensorsMqttService.CONNECTION_FAILURE == intent.action){
 
-                runOnUiThread { dataFromPublisher.text = "Error en la conexion" }
             }
 
             if(SensorsMqttService.CONNECTION_LOST == intent.action){
-                runOnUiThread { dataFromPublisher.text = "Conexion perdida" }
+
             }
 
             if(SensorsMqttService.DISCONNECT_SUCCESS == intent.action){

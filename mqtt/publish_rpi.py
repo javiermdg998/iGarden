@@ -9,7 +9,7 @@ import json
 import sys
 from datetime import datetime
 #MQTT topic
-topic = "iGarden/values"
+topic = "iGarden/Android"
 
 #Dirección del broker
 hostname = "test.mosquitto.org"

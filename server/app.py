@@ -97,6 +97,7 @@ def handle_mqtt_message(client, userdata, message):
     payload=data["payload"]
     values=json.loads(payload)
     
+    state["humid"]=values["humid"]
     state["humidity"] = values["humedad"]
     state["temperature"] = values["temperatura"]
     state["lightness"] = values["luminosidad"]

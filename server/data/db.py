@@ -8,7 +8,7 @@ class Database():
                         password="root",
                         database="iGarden"
                     )
-        self.cursor = self.mydb.cursor(dictionary=True)
+        self.cursor = self.mydb.cursor(dictionary=True,buffered=True)
 
     def select_luminities(self):
         self.cursor.execute("SELECT * FROM luminities")

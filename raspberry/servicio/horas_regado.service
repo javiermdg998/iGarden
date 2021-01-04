@@ -1,0 +1,9 @@
+[Unit]
+Description=Servicio que ejecute script horas_regado.sh
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/graficos.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
 import smtplib
-
+from datetime import datetime
 gmail_user = 'igarden.deusto@gmail.com'
 gmail_password = 'igarden00'
 
@@ -28,3 +28,7 @@ try:
     print("Email sent")
 except:
     print("Error")
+
+f = open('servicio/horas_regado.txt','w')
+f.write("HORAS DE REGADO EN " + datatime.today)
+f.close()

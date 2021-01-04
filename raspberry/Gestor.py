@@ -4,7 +4,8 @@ import get_humi_temp as ght
 import get_lumi as gl
 import time
 import salidas
-
+from datetime import datetime
+import logger as l
 b_marcha = False
 i_humedad = 0
 i_luminosidad = 0
@@ -13,10 +14,13 @@ b_regado = False
 T_MAX = 25
 T_MIN = 18
 T_NORMAL = 22
-
+PIN_CALEFACTOR = 8
+PIN_REFRIGERADOR = 7
+PIN_REGADORA = 1 
 s_temp_hum = ght.Sensor_temp_hum()
 s_lumi = gl.Sensor_lum()
 
+fichero = l.Fichero("/servicio/horas_regado.txt", datetime.today)
 H_MIN = 18
 H_MAX = 25
 H_NORMAL = 22
@@ -40,6 +44,7 @@ def execute():
         e = gestionar(e)
         escribir(e)
         time.sleep(0.2)
+
 execute()
 
 def gestionar(estado):
@@ -180,6 +185,8 @@ def desactivar_calentar():
 def enfriar():
     print("ESTOY ENFRIANDO")
 def activar_regado():
+    fichero.escribir("- INICIO DE REGADO :" + datetime.now())
     print("ESTOY REGANDO")
 def desactivar_regado():
+    fichero.escribir("  FIN DE REGADO : " + datetime.now() )
     print("DEJO DE REGAR")

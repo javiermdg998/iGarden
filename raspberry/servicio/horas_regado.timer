@@ -2,7 +2,7 @@
 Description=Run diario
 
 [Timer]
- OnCalendar=*-*-* 00:00:00
+ OnCalendar=*-*-* 00:12:50
 Persistent=true
 
 [Install]

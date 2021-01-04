@@ -22,10 +22,10 @@ s_lumi = gl.Sensor_lum()
 calefactor = salidas.Led(PIN_CALEFACTOR)
 refrigerador = salidas.Led(PIN_REFRIGERADOR)
 regadora = salidas.Led(PIN_REGADORA)
-fichero = l.Fichero("/servicio/horas_regado.txt", datetime.today)
-H_MIN = 18
-H_MAX = 25
-H_NORMAL = 22
+fichero = l.Fichero("/home/pi/Desktop/raspberry/servicio/horas_regado.txt", str(datetime.today()))
+H_MIN = 77
+H_MAX = 82
+H_NORMAL = 80
 class Estado(Enum):
     INACTIVO = 0
     INICIAL = 1
@@ -38,16 +38,6 @@ class Estado(Enum):
     CALIENTE_HUMEDO = 8
     CALIENTE_SECO = 9
 invernadero = i.Invernadero(i_temperatura, i_humedad, i_luminosidad, b_regado, b_marcha)
-
-def execute():
-    e= Estado.INACTIVO
-    while True:
-        leer(e)
-        e = gestionar(e)
-        escribir(e)
-        time.sleep(4)
-
-execute()
 
 def gestionar(estado):
     if estado == estado.INACTIVO:
@@ -175,40 +165,42 @@ def escribir(estado):
         desactivar_calentar()
         desactivar_enfriar()
         desactivar_regado()
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.SECO:
         desactivar_calentar()
         desactivar_enfriar()
         activar_regado()
     elif estado == estado.FRIO_HUMEDO:
         calentar()
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.FRIO_SECO:
         calentar()
         activar_regado()
     elif estado == estado.CALIENTE_HUMEDO:
         enfriar()
-        print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.CALIENTE_SECO:
         enfriar()
         activar_regado()
 def calentar():
     calefactor.encender_led()
-    print("TENECESITO")
 def desactivar_calentar():
     calefactor.apagar_led()
-    print("")
 def enfriar():
     refrigerador.encender_led()
-    print("ESTOY ENFRIANDO")
 def desactivar_enfriar():
     refrigerador.apagar_led()
-    print("YANOENFRIIO")
 def activar_regado():
     regadora.encender_led()
-    fichero.escribir("- INICIO DE REGADO :" + datetime.now())
-    print("ESTOY REGANDO")
+    fichero.escribir("- INICIO DE REGADO :" + str(datetime.now()))
 def desactivar_regado():
     regadora.apagar_led()
-    fichero.escribir("  FIN DE REGADO : " + datetime.now() )
-    print("DEJO DE REGAR")
+    fichero.escribir("  FIN DE REGADO : " + str(datetime.now()) )
+    
+def execute():
+    e= Estado.INACTIVO
+    while True:
+        leer(e)
+        e = gestionar(e)
+        escribir(e)
+        print("HUMEDAD = " + str(invernadero.humedad) + " | TEMP = " + str(invernadero.temperatura) + " | ESTADO = " + str(e)) 
+        time.sleep(2)
+
+execute()

@@ -5,7 +5,7 @@ import paho.mqtt.publish as publish
 import json
 class Sensor_moisture():
     def callback(channel):
-        if GPIO.input(channel):
+        if GPIO.input(self,channel):
             self.regado=False
         else:
             self.regado=True

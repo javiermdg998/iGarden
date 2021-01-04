@@ -3,6 +3,8 @@ import Invernadero as i
 import get_humi_temp as ght
 import get_lumi as gl
 import time
+import salidas
+
 b_marcha = False
 i_humedad = 0
 i_luminosidad = 0
@@ -158,23 +160,26 @@ def escribir(estado):
     elif estado == estado.HUMEDO:
         print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.SECO:
-        regar()
+        activar_regado()
     elif estado == estado.FRIO_HUMEDO:
         calentar()
         print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.FRIO_SECO:
         calentar()
-        regar()
+        activar_regado()
     elif estado == estado.CALIENTE_HUMEDO:
         enfriar()
         print("HUMEDAD EXCESIVA: " + invernadero.humedad)
     elif estado == estado.CALIENTE_SECO:
         enfriar()
-        regar()
-
+        activar_regado()
 def calentar():
     print("ESTOY CALENTANDO")
+def desactivar_calentar():
+    print("")
 def enfriar():
     print("ESTOY ENFRIANDO")
-def regar():
+def activar_regado():
     print("ESTOY REGANDO")
+def desactivar_regado():
+    print("DEJO DE REGAR")

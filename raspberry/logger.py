@@ -9,3 +9,5 @@ class Fichero():
         f = open(self.path, "a")
         f.write(txt)
         f.close()
+
+print(datetime.today())

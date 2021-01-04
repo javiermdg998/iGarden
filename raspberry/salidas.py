@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-class led():
+class Led():
     def __init__(self, p):
         self.pin = p
         GPIO.setmode(GPIO.BOARD)

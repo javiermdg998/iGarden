@@ -19,7 +19,9 @@ PIN_REFRIGERADOR = 7
 PIN_REGADORA = 1 
 s_temp_hum = ght.Sensor_temp_hum()
 s_lumi = gl.Sensor_lum()
-
+calefactor = salidas.Led(PIN_CALEFACTOR)
+refrigerador = salidas.Led(PIN_REFRIGERADOR)
+regadora = salidas.Led(PIN_REGADORA)
 fichero = l.Fichero("/servicio/horas_regado.txt", datetime.today)
 H_MIN = 18
 H_MAX = 25
@@ -43,7 +45,7 @@ def execute():
         leer(e)
         e = gestionar(e)
         escribir(e)
-        time.sleep(0.2)
+        time.sleep(4)
 
 execute()
 
@@ -179,14 +181,22 @@ def escribir(estado):
         enfriar()
         activar_regado()
 def calentar():
-    print("ESTOY CALENTANDO")
+    calefactor.encender_led()
+    print("TENECESITO")
 def desactivar_calentar():
+    calefactor.apagar_led()
     print("")
 def enfriar():
+    refrigerador.encender_led()
     print("ESTOY ENFRIANDO")
+def desactivar_enfriar():
+    refrigerador.apagar_led()
+    print("YANOENFRIIO")
 def activar_regado():
+    regadora.encender_led()
     fichero.escribir("- INICIO DE REGADO :" + datetime.now())
     print("ESTOY REGANDO")
 def desactivar_regado():
+    regadora.apagar_led()
     fichero.escribir("  FIN DE REGADO : " + datetime.now() )
     print("DEJO DE REGAR")

@@ -4,7 +4,7 @@ gmail_user = 'igarden.deusto@gmail.com'
 gmail_password = 'igarden00'
 
 sent_from = gmail_user
-f = open ('servicio/horas_regado.txt','r')
+f = open ('/home/pi/Desktop/raspberry/servicio/horas_regado.txt','r')
 
 to = 'igarden.deusto@gmail.com'
 subject = "GRAFICOS DE REGADO"
@@ -29,6 +29,6 @@ try:
 except:
     print("Error")
 
-f = open('servicio/horas_regado.txt','w')
+f = open('/home/pi/Desktop/raspberry/servicio/horas_regado.txt','w')
 f.write("HORAS DE REGADO EN " + datatime.today)
 f.close()

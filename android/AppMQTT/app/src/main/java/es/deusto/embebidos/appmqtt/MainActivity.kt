@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         dataFromPublisher.text = "EJEMPLO DE MQTT"
 
         mqttBroadcast = MqttBroadcast()
-        initMqttService(View(this))
+
     }
 
     // --------------------------------------------------------------------
@@ -49,6 +49,12 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceDisconnected(name: ComponentName?) {
             mqttService = null
         }
+    }
+
+    fun onClick(v:View){
+        println("test")
+        Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
+        initMqttService(View(this))
     }
     // ---------------------------------------------------------------------
 
@@ -70,7 +76,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             this.startService(startServiceIntent)
         }
-
+        Toast.makeText(this,"inicializando servicio",Toast.LENGTH_LONG).show()
+        Log.d("TAG","inicializando")
     }
 
 
@@ -78,6 +85,7 @@ class MainActivity : AppCompatActivity() {
      * Función para SUBSCRIBIRSE a un determinado  topic
      */
     fun subsTopic() {
+        Toast.makeText(this, "Conectando a invernadero", Toast.LENGTH_LONG).show()
         mqttService?.subscribeToTopic(SensorsMqttService.TOPICS[0], 0, object : IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken?) {
                 Log.d("MQTT", "EXITO EN LA SUBSCRIPCION AL TOPIC ${SensorsMqttService.TOPICS[0]}")
@@ -87,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MQTT", "ERROR EN LA SUBSCRIPCION ")
             }
         }, IMqttMessageListener { topic, message ->
-
+            Toast.makeText(this,"mensaje recibido", Toast.LENGTH_LONG).show()
             val msgObj = JSONObject(message.toString())
             val type = msgObj.getString(SensorsMqttService.MQTT_MESSAGE_TYPE)
             val payload = msgObj.getJSONObject(SensorsMqttService.MQTT_MESSAGE_PAYLOAD)
@@ -95,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             when(type){
 
                 "sensors_info" -> {
-                    payload.getJSONObject()
+                   // payload.getJSONObject()
                     val array = payload.getJSONArray("iGarden/values")
                     val tempSalon = array.getJSONObject(1).get("value")
                     runOnUiThread {
@@ -155,17 +163,21 @@ class MainActivity : AppCompatActivity() {
     inner class MqttBroadcast: BroadcastReceiver() {
     //Esta función se llaman automáticamente cuando hay CAMBIOS en la conexión MQTT con el broker
     override fun onReceive(context: Context?, intent: Intent?) {
+
         //Esta condició se ejecuta automáticamente cuando la conexión con el broker tiene éxito
             if(SensorsMqttService.CONNECTION_SUCCESS == intent!!.action){
+                println("conectado")
+                runOnUiThread { dataFromPublisher.text = "Conectando" }
                  subsTopic()
             }
 
             if(SensorsMqttService.CONNECTION_FAILURE == intent.action){
 
+                runOnUiThread { dataFromPublisher.text = "Error en la conexion" }
             }
 
             if(SensorsMqttService.CONNECTION_LOST == intent.action){
-
+                runOnUiThread { dataFromPublisher.text = "Conexion perdida" }
             }
 
             if(SensorsMqttService.DISCONNECT_SUCCESS == intent.action){

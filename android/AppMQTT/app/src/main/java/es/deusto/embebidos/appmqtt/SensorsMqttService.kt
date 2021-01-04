@@ -32,7 +32,7 @@ class SensorsMqttService : Service() {
 
         //------------------------------------------------------------
         //TOPICS. CORRESPONDEN A LOS TOPICS QUE USA LA RPi para publicar
-        val TOPICS = arrayOf("sensores", "topic2")
+        val TOPICS = arrayOf("iGarden/values", "topic2")
         //------------------------------------------------------------
     }
 

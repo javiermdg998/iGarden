@@ -20,5 +20,4 @@ class Sensor_lum():
         
 sensor = Sensor_lum() 
 ev = sensor.read()
-print("luz = " + str(ev))
 

@@ -112,11 +112,17 @@ class MainActivity : AppCompatActivity() {
             println(humedad)
             println(temperatura)
             println("----------------------------------------------")
+            var txt_humedo=""
+            if(humedo){
+                txt_humedo="SI"
+            }else{
+                txt_humedo="NO"
+            }
             runOnUiThread {
-                        humidity_view.text=humedad.toString()
-                        temperatura_view.text= temperatura.toString()
-                        luminity_view.text=luminosidad.toString()
-                        humid_view.text=humedo.toString()
+                        humidity_view.text=humedad.toString() +" %"
+                        temperatura_view.text= temperatura.toString() +" ºC"
+                        luminity_view.text=luminosidad.toString() + " lux"
+                        humid_view.text=txt_humedo
             }
 //            when(type){
 //

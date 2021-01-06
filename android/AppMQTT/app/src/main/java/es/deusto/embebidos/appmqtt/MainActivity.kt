@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             }
             runOnUiThread {
                         humidity_view.text=humedad.toString() +" %"
-                        temperatura_view.text= temperatura.toString() +" ºC"
+                        temperatura_view.text= temperatura.toString() +" C"
                         luminity_view.text=luminosidad.toString() + " lux"
                         humid_view.text=txt_humedo
             }

@@ -34,6 +34,7 @@ mensaje ={
  "humedad":valor,
  "temperatura":valor_1,
  "luminosidad":valor_2,
+ "humid":True,
  "fecha":str(datetime.now())
 }
 #---------------------------------------------------

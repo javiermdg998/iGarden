@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppMQTT</string>
+    <string name="no_data">N/A</string>
 </resources>

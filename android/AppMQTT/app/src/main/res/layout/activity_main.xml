@@ -7,37 +7,24 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textoXML"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="697dp" />
-
-    <TextView
         android:id="@+id/lbl_temperatura"
-        android:layout_width="98dp"
-        android:layout_height="49dp"
-        android:text="TextView"
+        android:layout_width="95dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="112dp"
+        android:text="@string/no_data"
         android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.728"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_regadera"
         android:layout_width="161dp"
         android:layout_height="165dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toStartOf="@+id/lbl_temperatura"
-        app:layout_constraintHorizontal_bias="0.223"
+        app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
@@ -46,8 +33,8 @@
         android:id="@+id/img_gota"
         android:layout_width="158dp"
         android:layout_height="141dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_bombilla"
         app:srcCompat="@mipmap/ic_gota" />
@@ -56,16 +43,18 @@
         android:id="@+id/img_termometro"
         android:layout_width="159dp"
         android:layout_height="142dp"
-        app:srcCompat="@mipmap/ic_termometro"
-        tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="555dp" />
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_gota"
+        app:srcCompat="@mipmap/ic_termometro" />
 
     <ImageView
         android:id="@+id/img_bombilla"
         android:layout_width="163dp"
         android:layout_height="136dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_regadera"
         app:srcCompat="@mipmap/ic_bombilla" />
@@ -74,28 +63,34 @@
         android:id="@+id/lbl_luz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="30sp"
-        tools:layout_editor_absoluteX="228dp"
-        tools:layout_editor_absoluteY="284dp" />
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="96dp"
+        android:text="@string/no_data"
+        android:textSize="36sp"
+        app:layout_constraintStart_toEndOf="@+id/img_bombilla"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_temperatura" />
 
     <TextView
         android:id="@+id/lbl_humidity"
-        android:layout_width="86dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="60dp"
-        android:text="TextView"
+        android:layout_width="120dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/no_data"
+        android:textSize="36sp"
         app:layout_constraintStart_toEndOf="@+id/img_gota"
-        tools:layout_editor_absoluteY="420dp" />
+        app:layout_constraintTop_toBottomOf="@+id/lbl_luz" />
 
     <TextView
         android:id="@+id/lbl_humid"
-        android:layout_width="78dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="48dp"
-        android:text="TextView"
+        android:layout_width="121dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/no_data"
+        android:textSize="36sp"
         app:layout_constraintStart_toEndOf="@+id/img_termometro"
-        tools:layout_editor_absoluteY="585dp" />
+        app:layout_constraintTop_toBottomOf="@+id/lbl_humidity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

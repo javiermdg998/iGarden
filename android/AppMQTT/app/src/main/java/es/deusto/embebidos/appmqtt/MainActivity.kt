@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mqttService: SensorsMqttService? = null
     private lateinit var mqttBroadcast: MqttBroadcast
-    lateinit var dataFromPublisher :TextView
+//    lateinit var dataFromPublisher :TextView
     lateinit var temperatura_view :TextView
     lateinit var humid_view :TextView
     lateinit var humidity_view :TextView
@@ -37,10 +37,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         temperatura_view=findViewById<TextView>(R.id.lbl_temperatura)
-        temperatura_view.text="Texto"
-        temperatura_view.textSize=30f
-        dataFromPublisher         = findViewById<TextView>(R.id.textoXML)
-        dataFromPublisher.text = "EJEMPLO DE MQTT"
+
+//        dataFromPublisher         = findViewById<TextView>(R.id.textoXML)
+//        dataFromPublisher.text = "EJEMPLO DE MQTT"
+
+        humid_view=findViewById<TextView>(R.id.lbl_humid)
+        humidity_view=findViewById<TextView>(R.id.lbl_humidity)
+        luminity_view=findViewById<TextView>(R.id.lbl_luz)
 
         mqttBroadcast = MqttBroadcast()
         initMqttService(View(this))
@@ -104,12 +107,16 @@ class MainActivity : AppCompatActivity() {
 
             val humedad=msgObj.getDouble(SensorsMqttService.MQTT_MESSAGE_HUMEDAD)
             val temperatura=msgObj.getDouble(SensorsMqttService.MQTT_MESSAGE_TEMPERATURA)
+            val luminosidad=msgObj.getDouble(SensorsMqttService.MQTT_MESSAGE_LUMINOSIDAD)
+            val humedo=msgObj.getBoolean(SensorsMqttService.MQTT_MESSAGE_HUMEDO)
             println(humedad)
             println(temperatura)
             println("----------------------------------------------")
             runOnUiThread {
-                        dataFromPublisher.text = humedad.toString()
+                        humidity_view.text=humedad.toString()
                         temperatura_view.text= temperatura.toString()
+                        luminity_view.text=luminosidad.toString()
+                        humid_view.text=humedo.toString()
             }
 //            when(type){
 //

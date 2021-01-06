@@ -34,6 +34,7 @@ class SensorsMqttService : Service() {
         val MQTT_MESSAGE_HUMEDAD="humedad"
         val MQTT_MESSAGE_TEMPERATURA="temperatura"
         val MQTT_MESSAGE_LUMINOSIDAD="luminosidad"
+        val MQTT_MESSAGE_HUMEDO="humid"
         //------------------------------------------------------------
         //TOPICS. CORRESPONDEN A LOS TOPICS QUE USA LA RPi para publicar
         val TOPICS = arrayOf("iGarden/values", "topic2")

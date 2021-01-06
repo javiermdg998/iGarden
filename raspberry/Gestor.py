@@ -6,6 +6,11 @@ import soil as sl
 import time
 import salidas
 from datetime import datetime
+import smbus
+import dht_config
+import paho.mqtt.publish as publish
+import json
+import sys
 import logger as l
 b_marcha = False
 i_humedad = 0
@@ -125,7 +130,24 @@ def escribir(estado):
         activar_regado()
     elif estado == estado.CALIENTE_SECO:
         enfriar()
-        activar_regado()
+        activar_regado() 
+        
+    dateTimeObj = datetime.now()
+    dateTimeObj=str(dateTimeObj)
+    topic = "iGarden/values" 
+    hostname = "test.mosquitto.org"
+
+    mensaje ={
+     "humedad":invernadero.humedad,
+     "temperatura":invernadero.temperatura,
+     "luminosidad":invernadero.luminosidad,
+     "fecha":dateTimeObj,
+     "humid":invernadero.regado
+    }
+    mensaje_json= json.dumps(mensaje)
+    publish.single(topic, mensaje_json, hostname=hostname)
+    print(mensaje)
+    
 def calentar():
     calefactor.encender_led()
 def desactivar_calentar():
@@ -142,6 +164,7 @@ def desactivar_regado():
     if(t_seco_inicial == True):
         fichero.escribir("  FIN DE REGADO : " + str(datetime.now()) + "\n")
         t_seco_inicial = False
+
 def execute():
     e= Estado.INACTIVO
     while True:
@@ -150,5 +173,5 @@ def execute():
         escribir(e)
         print("HUMEDAD = " + str(invernadero.humedad) + " | TEMP = " + str(invernadero.temperatura) + " | ESTADO = " + str(e)) 
         time.sleep(2)
-        
+
 execute()

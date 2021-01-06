@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mqttBroadcast: MqttBroadcast
     lateinit var dataFromPublisher :TextView
     lateinit var temperatura_view :TextView
+    lateinit var humid_view :TextView
+    lateinit var humidity_view :TextView
+    lateinit var luminity_view :TextView
 
 
     /**
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         temperatura_view=findViewById<TextView>(R.id.lbl_temperatura)
-        temperatura_view.text="Texto de prueba"
+        temperatura_view.text="Texto"
         temperatura_view.textSize=30f
         dataFromPublisher         = findViewById<TextView>(R.id.textoXML)
         dataFromPublisher.text = "EJEMPLO DE MQTT"
@@ -93,25 +96,33 @@ class MainActivity : AppCompatActivity() {
         }, IMqttMessageListener { topic, message ->
 
             val msgObj = JSONObject(message.toString())
-            print(msgObj)
-            val type = msgObj.getString(SensorsMqttService.MQTT_MESSAGE_TYPE)
-            val payload = msgObj.getJSONObject(SensorsMqttService.MQTT_MESSAGE_PAYLOAD)
-
-            when(type){
-
-                "sensors_info" -> {
-                    val array = payload.getJSONArray("sensors_info")
-                    val tempSalon = array.getJSONObject(1).get("value")
-                    val temp2 = array.getJSONObject(0).get("value")
-                    runOnUiThread {
-                        dataFromPublisher.text = "Temperatura salon = " + tempSalon.toString()
-                        temperatura_view.text=temp2.toString()
-                    }
-                }
+            println("-----------------------------------------------")
+            println(msgObj)
+            println(message)
+            println("----------------------------------------------")
 
 
-
+            val humedad=msgObj.getDouble(SensorsMqttService.MQTT_MESSAGE_HUMEDAD)
+            val temperatura=msgObj.getDouble(SensorsMqttService.MQTT_MESSAGE_TEMPERATURA)
+            println(humedad)
+            println(temperatura)
+            println("----------------------------------------------")
+            runOnUiThread {
+                        dataFromPublisher.text = humedad.toString()
+                        temperatura_view.text= temperatura.toString()
             }
+//            when(type){
+//
+//                "sensors_info" -> {
+//                    val array = payload.getJSONArray("sensors_info")
+//                    val tempSalon = array.getJSONObject(1).get("value")
+//                    val temp2 = array.getJSONObject(0).get("value")
+//                    runOnUiThread {
+//                        dataFromPublisher.text = "Temperatura salon = " + tempSalon.toString()
+//                        temperatura_view.text=temp2.toString()
+//                    }
+//                }
+//            }
 
         })
 

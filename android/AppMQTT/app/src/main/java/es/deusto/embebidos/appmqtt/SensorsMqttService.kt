@@ -30,9 +30,13 @@ class SensorsMqttService : Service() {
         val MQTT_MESSAGE_TYPE = "type"
         val MQTT_MESSAGE_PAYLOAD = "payload"
 
+
+        val MQTT_MESSAGE_HUMEDAD="humedad"
+        val MQTT_MESSAGE_TEMPERATURA="temperatura"
+        val MQTT_MESSAGE_LUMINOSIDAD="luminosidad"
         //------------------------------------------------------------
         //TOPICS. CORRESPONDEN A LOS TOPICS QUE USA LA RPi para publicar
-        val TOPICS = arrayOf("iGarden/Android", "topic2")
+        val TOPICS = arrayOf("iGarden/values", "topic2")
         //------------------------------------------------------------
     }
 

@@ -6,39 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="252dp"
-        android:text="CONECTAR"
-        android:onClick="initMqttService"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoXML" />
-
     <TextView
         android:id="@+id/textoXML"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="697dp" />
 
     <TextView
         android:id="@+id/lbl_temperatura"
-        android:layout_width="123dp"
-        android:layout_height="57dp"
-        android:layout_marginBottom="480dp"
+        android:layout_width="98dp"
+        android:layout_height="49dp"
         android:text="TextView"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.139" />
+
+    <ImageView
+        android:id="@+id/img_regadera"
+        android:layout_width="161dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toStartOf="@+id/lbl_temperatura"
+        app:layout_constraintHorizontal_bias="0.223"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/img_gota"
+        android:layout_width="158dp"
+        android:layout_height="141dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_bombilla"
+        app:srcCompat="@mipmap/ic_gota" />
+
+    <ImageView
+        android:id="@+id/img_termometro"
+        android:layout_width="159dp"
+        android:layout_height="142dp"
+        app:srcCompat="@mipmap/ic_termometro"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="555dp" />
+
+    <ImageView
+        android:id="@+id/img_bombilla"
+        android:layout_width="163dp"
+        android:layout_height="136dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_regadera"
+        app:srcCompat="@mipmap/ic_bombilla" />
+
+    <TextView
+        android:id="@+id/lbl_luz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="228dp"
+        tools:layout_editor_absoluteY="284dp" />
+
+    <TextView
+        android:id="@+id/lbl_humidity"
+        android:layout_width="86dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/img_gota"
+        tools:layout_editor_absoluteY="420dp" />
+
+    <TextView
+        android:id="@+id/lbl_humid"
+        android:layout_width="78dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="48dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/img_termometro"
+        tools:layout_editor_absoluteY="585dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import paho.mqtt.publish as publish
 import json
 import sys
 import logger as l
+import RPi.GPIO as GPIO
 b_marcha = False
 i_humedad = 0
 i_luminosidad = 0
@@ -20,9 +21,10 @@ b_regado = False
 T_MAX = 25
 T_MIN = 18
 T_NORMAL = 22
-PIN_CALEFACTOR = 8
-PIN_REFRIGERADOR = 7
-PIN_REGADORA = 1 
+PIN_CALEFACTOR = 8 #azul
+PIN_REFRIGERADOR = 7 #rojo
+PIN_REGADORA = 25 #verde
+
 s_temp_hum = ght.Sensor_temp_hum()
 s_lumi = gl.Sensor_lum()
 s_regado = sl.Sensor_moisture()
@@ -44,8 +46,11 @@ class Estado(Enum):
 invernadero = i.Invernadero(i_temperatura, i_humedad, i_luminosidad, b_regado, b_marcha)
 
 t_seco_inicial = False
+t_inicial_seco = False
 
 def gestionar(estado):
+    global t_seco_inicial
+    global t_inicial_seco
     if estado == estado.INACTIVO:
         if invernadero.marcha == True:
             estado = estado.INICIAL
@@ -56,18 +61,22 @@ def gestionar(estado):
             estado = estado.CALIENTE
         elif invernadero.temperatura < T_MIN and invernadero.regado == R_FALSE:
             estado = estado.FRIO_SECO
+            t_inicial_seco = True
         elif invernadero.temperatura > T_MAX and invernadero.regado == R_FALSE:
+            t_inicial_seco = True
             estado = estado.CALIENTE_SECO
     elif estado == estado.FRIO:
         if invernadero.temperatura >= T_NORMAL:
             estado = estado.INICIAL
         elif invernadero.regado == R_FALSE:
             estado = estado.FRIO_SECO
+            t_inicial_seco = True
     elif estado == estado.CALIENTE:
         if invernadero.temperatura <= T_NORMAL:
             estado = estado.INICIAL
         elif invernadero.regado == R_FALSE:
             estado = estado.CALIENTE_SECO
+            t_inicial_seco = True
     elif estado == estado.SECO:
         if invernadero.regado == R_TRUE:
             estado = estado.INICIAL
@@ -101,6 +110,8 @@ def leer(estado): #FALTA MARCHA
         invernadero.marcha = True
     elif estado != estado.INACTIVO:
         invernadero.humedad, invernadero.temperatura = s_temp_hum.read()
+        #invernadero.humedad = int(input("Introduce humedad : "))
+        #invernadero.temperatura = int(input("Introduce temperatura : " ))
         invernadero.luminosidad = s_lumi.read()
         invernadero.regado = s_regado.read()
     
@@ -127,11 +138,13 @@ def escribir(estado):
         activar_regado()
     elif estado == estado.FRIO_SECO:
         calentar()
+        desactivar_enfriar()        
         activar_regado()
     elif estado == estado.CALIENTE_SECO:
         enfriar()
         activar_regado() 
-        
+        desactivar_calentar()
+
     dateTimeObj = datetime.now()
     dateTimeObj=str(dateTimeObj)
     topic = "iGarden/values" 
@@ -149,23 +162,35 @@ def escribir(estado):
     print(mensaje)
     
 def calentar():
+    print("CALENTANDO")
     calefactor.encender_led()
 def desactivar_calentar():
+    print("YA NO CALENTANDO")
     calefactor.apagar_led()
 def enfriar():
+    print("ENFRIANDO")
     refrigerador.encender_led()
 def desactivar_enfriar():
+    print("YA NO ENFRIANDO\n")
     refrigerador.apagar_led()
 def activar_regado():
+    print("REGANDO")
+    global t_inicial_seco
     regadora.encender_led()
-    fichero.escribir("- INICIO DE REGADO :" + str(datetime.now()) + "\n")
+    print("REGANDO\n")
+    if t_inicial_seco == True:
+        fichero.escribir("\n- INICIO DE REGADO :" + str(datetime.now()) + "\n")
+        t_inicial_seco = False
 def desactivar_regado():
+    print("YA NO REGANDO")
+    global t_seco_inicial
     regadora.apagar_led()
-    if(t_seco_inicial == True):
+    if t_seco_inicial == True:
         fichero.escribir("  FIN DE REGADO : " + str(datetime.now()) + "\n")
         t_seco_inicial = False
 
 def execute():
+    GPIO.cleanup()
     e= Estado.INACTIVO
     while True:
         leer(e)

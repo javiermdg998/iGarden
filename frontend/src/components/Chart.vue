@@ -3,7 +3,7 @@
     <h2>{{title}}</h2>
     <line-chart :chart-data="datacollection"></line-chart>
 
-     <button @click="add(4)">Add data</button>
+    
   </div>
 </template>
 
@@ -34,7 +34,7 @@
      
         data.forEach(element => {
             let date=new Date(element.time)            
-            this.labels.push(`${date.getDay()}-${date.getMonth()}`)
+            this.labels.push(`${date.getHours()}:${date.getMinutes()} ${date.getDay()}-${date.getMonth()+1}`)
             this.points.push(element.value)
         });
 

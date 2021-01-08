@@ -63,29 +63,7 @@ def get_luminities():
     return jsonify(data)
 
 
-# @socketio.on('publish')
-# def handle_publish(json_str):
-#     data = json.loads(json_str)
-#     mqtt.publish(data['topic'], data['message'])
 
-
-# @socketio.on('my event')
-# def handle_my_custom_event(json):
-#     print('received json: ' + str(json))
-
-# @socketio.on('subscribe')#prescindible
-# def handle_subscribe(json_str):
-#     data = json.loads(json_str)
-#     mqtt.subscribe(data['topic'])
-
-
-# @socketio.on('unsubscribe_all')
-# def handle_unsubscribe_all():
-#     mqtt.unsubscribe_all()
-
-# @socketio.on('my event')
-# def handle_my_custom_event(json):
-#     print('received json: ' + str(json))
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
